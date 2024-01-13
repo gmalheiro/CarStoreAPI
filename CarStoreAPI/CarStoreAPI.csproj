@@ -16,7 +16,6 @@
     <Folder Include="Data\Db\" />
     <Folder Include="Data\Converter\" />
     <Folder Include="Business\" />
-    <Folder Include="Models\Base\" />
     <Folder Include="Repository\" />
   </ItemGroup>
 
