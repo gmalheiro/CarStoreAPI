@@ -1,3 +1,5 @@
+using CarStoreAPI.Infrastructure;
+
 namespace CarStoreAPI;
 
 public class Program
@@ -7,6 +9,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+
+        builder.Services.AddDependencies();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
