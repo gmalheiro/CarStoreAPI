@@ -1,4 +1,5 @@
-﻿using CarStoreAPI.Data.DTO;
+﻿using CarStoreAPI.Data.Converter.Implementations;
+using CarStoreAPI.Data.DTO;
 using CarStoreAPI.Repository.CarRepositoryDapper;
 
 namespace CarStoreAPI.Business.Implementation;
@@ -6,23 +7,22 @@ namespace CarStoreAPI.Business.Implementation;
 public class CarBusiness : ICarBusiness
 {
     private readonly ICarRepositoryDapper _carRepositoryDapper;
+    private readonly CarParser _parser;
 
-    public CarBusiness(ICarRepositoryDapper carRepositoryDapper)
+    public CarBusiness(ICarRepositoryDapper carRepositoryDapper, CarParser parser)
     {
         _carRepositoryDapper = carRepositoryDapper;
+        _parser = parser;
     }
 
     public CarDTO Create(CarDTO carDTO)
     {
-        try
-        {
-            return carDTO;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
+
+        var car = _parser.Parse(carDTO);
+
+        _carRepositoryDapper.Create(car);
+
+        return carDTO;
     }
 
     public CarDTO DeleteById(int id)
@@ -32,7 +32,9 @@ public class CarBusiness : ICarBusiness
 
     public List<CarDTO> FindAll()
     {
-        throw new NotImplementedException();
+        var cars = _carRepositoryDapper.FindAll();
+
+        return _parser.Parse(cars);
     }
 
     public CarDTO FindById(int id)
